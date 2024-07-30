@@ -1,0 +1,101 @@
+﻿<Window x:Class="DiscordJob.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:local="clr-namespace:DiscordJob"
+        mc:Ignorable="d"
+        Title="DC自动任务" Height="700" Width="820">
+
+    <Window.Resources>
+        <local:TabbarIconCommand x:Key="TabbarIconCommand"/>
+    </Window.Resources>
+
+    <Grid VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="255"></RowDefinition>
+            <RowDefinition Height="300"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <tb:TaskbarIcon IconSource="/Resources/discord.ico" ToolTipText="Discord自动任务工具" DoubleClickCommand="{StaticResource TabbarIconCommand}" MenuActivation="LeftOrRightClick" >
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="btnOpenMainWindow" Header="打开窗口" Click="btnOpenMainWindow_Click"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Name="btnCloseWindow" Header="退出程序" Click="btnCloseWindow_Click"></MenuItem>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>      
+        </tb:TaskbarIcon>
+        
+        <GroupBox Header="用户配置" Height="100" Margin="10,0,10,0" Grid.Row="0" Grid.Column="0">
+            <StackPanel Margin="10,10,0,0" Orientation="Vertical">
+                <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
+                    <Label Content="用户授权：" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24"/>
+                    <TextBox Name="tbAuth" Width="500" local:PlaceholderManager.Placeholder="请输入Auth，Discord F12找到任意请求中的Authorization，复制到这里" Padding="5,4,0,0" />
+                </StackPanel>
+                <StackPanel Margin="80,10,0,0" Orientation="Horizontal">
+                    <Button Content="保存" Padding="10,2,10,2" Name="btnSaveAuth" Click="btnSaveAuth_Click" />
+                </StackPanel>
+            </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="配置区域(右键清理)" Height="245" Margin="10,10,10,0" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0">
+                <StackPanel Orientation="Horizontal">
+                    <ListBox Name="lbTask" Height="210" Width="330" BorderBrush="LightGray">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ShowResult}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Name="btnRefresh" Header="重载数据" Click="btnRefresh_Click" />
+                                <Separator></Separator>
+                                <MenuItem Name="btnDelete" Header="删除选中配置" Tag="{Binding Path=SelectdIndex}" Click="btnDelete_Click" />
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
+                    </ListBox>
+                    <GroupBox Header="新任务" Height="210" Margin="10,0,0,0" Width="440" >
+                        <StackPanel>
+                            <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                                <Label Content="任务名称：" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24"/>
+                                <TextBox Name="tvTitle" Width="340" local:PlaceholderManager.Placeholder="请输入任务名称" Padding="5,4,0,0" />
+                            </StackPanel>
+                            <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                                <Label Content="发送频道：" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24"/>
+                                <TextBox Name="tvChannelId" Width="340" local:PlaceholderManager.Placeholder="频道ID，频道网址上最后一串数字" Padding="5,4,0,0" />
+                            </StackPanel>
+                            <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                                <Label Content="发送内容：" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24"/>
+                                <TextBox Name="tvContent" Width="340" local:PlaceholderManager.Placeholder="请输入发送内容" Padding="5,4,0,0" />
+                            </StackPanel>
+                            <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                                <Label Content="循环时间：" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24"/>
+                                <TextBox Name="tvCron" Width="340" local:PlaceholderManager.Placeholder="小时(h),分钟(m),秒(s)" Padding="5,4,0,0" />
+                            </StackPanel>
+                            <StackPanel Margin="80,10,0,0" Orientation="Horizontal">
+                                <Button Content="保存" Padding="10,2,10,2" Name="btnSave" Click="btnSave_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="运行区域" Height="280" Margin="10,10,10,10" Grid.Row="2" Grid.Column="0" >
+                <StackPanel>
+                    <Canvas>
+                        <TextBox Name="tbLog" Height="245" Width="771" Padding="5,5,5,5" TextWrapping="Wrap" Canvas.Top="10" BorderBrush="White" IsReadOnly="True"/>
+                        <Button Name="btnStart" Content="启动任务" Canvas.Right="10" Canvas.Top="10" Padding="10,2,10,2" Click="btnStart_Click" />
+                    </Canvas>
+                </StackPanel>
+            </GroupBox>
+    </Grid>
+</Window>

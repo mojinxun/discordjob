@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordJob", "src\DiscordJob\DiscordJob.csproj", "{BFD70ED9-97ED-40D3-80CA-43BD2A952E6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordConsole", "src\DiscordConsole\DiscordConsole.csproj", "{DD08ACE2-95F7-400C-89B6-C3689A04608F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFD70ED9-97ED-40D3-80CA-43BD2A952E6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFD70ED9-97ED-40D3-80CA-43BD2A952E6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFD70ED9-97ED-40D3-80CA-43BD2A952E6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFD70ED9-97ED-40D3-80CA-43BD2A952E6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD08ACE2-95F7-400C-89B6-C3689A04608F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD08ACE2-95F7-400C-89B6-C3689A04608F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD08ACE2-95F7-400C-89B6-C3689A04608F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD08ACE2-95F7-400C-89B6-C3689A04608F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {787E11CE-FD73-41EC-AA1F-0255B3D004FF}
+	EndGlobalSection
+EndGlobal
