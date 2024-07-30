@@ -107,6 +107,9 @@ namespace DiscordJob
             for (int i = 0; i < tasks.Count; i++)
             {
                 var task = tasks[i];
+                if (task.IsPause)
+                    continue;
+
                 Task.Factory.StartNew(async () =>
                 {
                     await ExecuteTask(i, task);
@@ -118,6 +121,18 @@ namespace DiscordJob
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             LoadTasks();
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbTask.SelectedItem == null)
+            {
+                MessageBox.Show($"请先选择要暂停的行");
+                return;
+            }
+            var selectTask = (TaskModel)lbTask.SelectedItem;
+            selectTask.IsPause = !selectTask.IsPause;
+            SaveTasks(selectTask);
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -133,7 +148,7 @@ namespace DiscordJob
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if(CloseingHide)
+            if (CloseingHide)
             {
                 Hide();
                 Topmost = false;
@@ -207,7 +222,7 @@ namespace DiscordJob
 
             var taskJson = System.IO.File.ReadAllText(ConfigFile);
             var tasks = taskJson.TryDeserialize<List<TaskModel>>() ?? new List<TaskModel>();
-            return tasks;
+            return tasks.OrderBy(oo => oo.IsPause).ToList();
         }
 
         private void SaveTasks(TaskModel task, bool remove = false)
@@ -303,6 +318,7 @@ namespace DiscordJob
                     var httpResponseString = await httpResponse.Content.ReadAsStringAsync();
                     Console.WriteLine($"{DateTime.Now:MM-dd HH:mm:ss} {httpResponseString}");
                     lastExecuteTime = DateTime.Now;
+                    task.LastExec = true;
                     task.LastExecResult = $"本次执行{lastExecuteTime:MM-dd HH:mm:ss}";
                     SaveTasks(task);
 
@@ -312,7 +328,9 @@ namespace DiscordJob
                 }
                 catch (Exception ex)
                 {
-                    task.LastExecResult = $"上次执行{lastExecuteTime:MM-dd HH:mm:ss},本次执行{DateTime.Now:MM-dd HH:mm:ss}异常";
+                    lastExecuteTime = DateTime.Now;
+                    task.LastExec = false;
+                    task.LastExecResult = string.Empty;
                     SaveTasks(task);
 
                     AddLog($"{DateTime.Now:yy-MM-dd HH:mm:ss} {task.Title} 执行异常：{ex.Message}");

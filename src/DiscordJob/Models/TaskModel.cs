@@ -25,6 +25,21 @@ namespace DiscordJob
         public required string Cron { get; set; }
 
         /// <summary>
+        /// 随机秒 10,11
+        /// </summary>
+        public string? RdSecond { get; set; }
+
+        /// <summary>
+        /// 是否暂停
+        /// </summary>
+        public bool IsPause { get; set; }
+
+        /// <summary>
+        /// 最后一次执行的状态
+        /// </summary>
+        public bool? LastExec { get; set; }
+
+        /// <summary>
         /// 最后执行状态
         /// </summary>
         [JsonIgnore]
@@ -51,8 +66,10 @@ namespace DiscordJob
                 var lastExecResult = LastExecResult;
                 if (string.IsNullOrWhiteSpace(lastExecResult))
                     lastExecResult = "未执行";
+                else if (LastExec.HasValue && !LastExec.Value)
+                    lastExecResult = $"执行失败";
 
-                var result = $"{Title} - {lastExecResult}";
+                var result = $"{(IsPause ? "【暂停】" : "")}{Title} - {lastExecResult}";
                 return result;
             }
         }
